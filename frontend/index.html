@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National VDA Audit & Resolution Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <div class="utility-left">
+            <span>System Status: 🟢 ACTIVE</span>
+            <span>Digital Assurance Initiative</span>
+        </div>
+        <div class="utility-right">
+            <span><span id="sys-time"></span> (UTC+05:30)</span>
+            <select title="Select Language"><option>English</option></select>
+            <button title="Decrease Font Size">A-</button><button title="Normal Font Size">A</button><button title="Increase Font Size">A+</button>
+            <button class="btn-emergency" title="Contact Emergency Support Desk">🚨 Emergency Desk</button>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="branding-container">
+            <div class="branding-logo"></div>
+            <div>
+                <div class="branding-title">VDA Audit & Asset Tracing Portal</div>
+                <div class="branding-subtitle">Neutral Web3 Security, Asset Recovery, and Transaction Tracing Platform</div>
+            </div>
+        </div>
+        <div class="user-login" title="User Login Portal">👤 User Login</div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="#" class="active" title="Home Page">Home</a>
+        <a href="report.html" title="File a new dispute entry">File Report</a>
+        <a href="#" title="Track existing report status">Track Status</a>
+        <a href="#" title="Verification and Audit Node Registry">Verification & Node Registry</a>
+        <a href="#" title="Global Search Portal">Search Portal</a>
+    </nav>
+
+    <!-- Security Ticker -->
+    <div class="ticker-banner" title="Important Security Alert">
+        <span>⚠️ SECURE ALERT:</span>
+        <marquee scrollamount="5">Portal Security Alert: Admins will NEVER ask for Private Keys, Seed Phrases, or Remote Access. Beware of fake asset recovery agents.</marquee>
+    </div>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-left">
+                <span class="hero-tag">⚖️ ASSET RECOVERY PROTOCOL</span>
+                <h1>Report Cryptocurrency &<br>Digital Asset Disputes</h1>
+                <p>A unified platform for rapid tracing of digital assets, blockchain address verification, and exchange coordination.</p>
+                
+                <div class="hero-actions">
+                    <a href="report.html" class="btn-primary" title="Proceed to file a new incident report">📝 File a Dispute Entry</a>
+                    <button class="btn-outline" title="Track an already submitted incident">🔍 Track Existing Status</button>
+                </div>
+                
+                <div class="live-counter-tag" title="Live aggregated value of tracked digital assets">
+                    <div class="pulse-dot"></div>
+                    <span><span id="metric-value-tracked">₹412,90,44,000+</span> Total Value Tracked Across Protocol</span>
+                </div>
+            </div>
+
+            <!-- Ledger Telemetry Widget -->
+            <div class="hero-right">
+                <div class="telemetry-card">
+                    <div class="telemetry-header">
+                        <div class="telemetry-title">
+                            <span>❄️ LEDGER TELEMETRY</span>
+                            <span style="background:rgba(255,255,255,0.1); padding:0.2rem 0.5rem; border-radius:4px; font-size:0.7rem;" title="System Sync Status">LIVE SYNC</span>
+                        </div>
+                        <div class="telemetry-latency" title="Current network latency to nodes">Latency: <span id="telemetry-latency">42ms</span></div>
+                    </div>
+
+                    <div class="timeline-indicator">
+                        <div class="timeline-node" title="Suspect Address Processing Node">
+                            <div class="node-dot active"></div>
+                            <div class="node-label">SUSPECT ADDR</div>
+                        </div>
+                        <div class="timeline-node" title="Virtual Asset Service Provider Node">
+                            <div class="node-dot"></div>
+                            <div class="node-label">VASP NODE</div>
+                        </div>
+                        <div class="timeline-node" title="Transaction Freeze Action Target">
+                            <div class="node-dot danger"></div>
+                            <div class="node-label">TX FREEZE</div>
+                        </div>
+                    </div>
+
+                    <div class="quick-validator">
+                        <h4>FAST TRACK HASH VALIDATOR</h4>
+                        <p style="font-size:0.8rem; color:#94a3b8;">Supports EVM, TRC-20, UTXO, and Solana standards.</p>
+                        <div class="validator-input-group">
+                            <input type="text" id="quick-hash" placeholder="Paste TxID / Suspect Wallet Address..." title="Enter Transaction Hash or Wallet Address to query the registry">
+                            <button onclick="verifyHash()" title="Verify hash in database">Verify</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Metrics Bar -->
+        <section class="impact-metrics-bar">
+            <div class="metric-card" title="24/7 Support availability for critical incidents">
+                <div class="metric-icon">📞</div>
+                <div class="metric-content">
+                    <h3>24/7</h3>
+                    <p>Support Desk Active</p>
+                </div>
+            </div>
+            <div class="metric-card" title="Number of registered Virtual Asset Service Providers">
+                <div class="metric-icon">🏦</div>
+                <div class="metric-content">
+                    <h3 id="metric-vasps">72+</h3>
+                    <p>Registered VASPs & Exchanges</p>
+                </div>
+            </div>
+            <div class="metric-card" title="Number of known malicious wallet addresses indexed">
+                <div class="metric-icon">🚫</div>
+                <div class="metric-content">
+                    <h3 id="metric-wallets">18,400+</h3>
+                    <p>Flagged Wallet Addresses</p>
+                </div>
+            </div>
+            <div class="metric-card" title="Average initial response processing time">
+                <div class="metric-icon">⏱️</div>
+                <div class="metric-content">
+                    <h3>42 Mins</h3>
+                    <p>Average First Response Time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section class="workflow-section">
+            <div class="section-header">
+                <h2 style="font-size:1.1rem; color:var(--secondary-color); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.25rem;">END-TO-END RESOLUTION FRAMEWORK</h2>
+                <h2 style="font-size:2rem; color:var(--primary-color);">Official Incident Resolution Workflow</h2>
+                <p>From emergency intake during the golden window to automated ledger tracing and legal exchange freezing mandates.</p>
+            </div>
+
+            <div class="workflow-grid">
+                <div class="workflow-step">
+                    <div class="step-number">01</div>
+                    <div style="font-size:1.5rem;">📝</div>
+                    <h3>Submit Incident & TxIDs</h3>
+                    <p>Citizen immediately logs the transaction hash (TxID), recipient wallet addresses, platform details, chat transcripts, and bank accounts within the initial 2-hour golden window.</p>
+                    <span class="workflow-tag">Input Stage: Citizen Portal</span>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">02</div>
+                    <div style="font-size:1.5rem;">🔍</div>
+                    <h3>Blockchain Tracing & Verification</h3>
+                    <p>Automated ledger analytics inspects on-chain hops across Bitcoin, Ethereum, Tron, and Solana ledgers to identify recipient centralized exchanges (VASPs), mixers, and off-ramping pools.</p>
+                    <span class="workflow-tag">Analytics: Automated Graphing</span>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">03</div>
+                    <div style="font-size:1.5rem;">⚖️</div>
+                    <h3>Asset Recovery & Resolution</h3>
+                    <p>Resolution teams transmit statutory freeze orders directly to exchange nodal officers, placing immediate holds on beneficiary accounts to halt liquidation.</p>
+                    <span class="workflow-tag" style="color:var(--accent-color); background:#fef2f2;">Action: Asset Freeze Order</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Grid -->
+        <section class="categories-section">
+            <div class="section-header">
+                <h2 style="font-size:1.1rem; color:var(--secondary-color); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.25rem;">CATEGORIZED THREAT INTAKE</h2>
+                <h2 style="font-size:2rem; color:var(--primary-color);">Select Dispute Category to Report</h2>
+                <p>Identify the specific mechanism through which digital assets or funds were compromised for specialized investigation routing.</p>
+            </div>
+
+            <div class="category-grid">
+                <!-- Card 1 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report an Unauthorized Wallet Transfer">
+                    <div class="category-header">
+                        <div class="cat-icon">🚫</div>
+                        <span class="cat-badge critical">CRITICAL</span>
+                    </div>
+                    <h3>Unauthorized Wallet Transfers</h3>
+                    <p>Compromised seed phrases, clipboard address hijacking malware, infected APK mobile miners, unauthorized SIM swaps leading to bypassed 2FA on exchange wallets.</p>
+                    <a href="report.html" class="category-link" title="Report Unauthorized Transfer">Report Unauthorized Transfer →</a>
+                </div>
+                <!-- Card 2 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report a Web3 Exploit or Phishing attempt">
+                    <div class="category-header">
+                        <div class="cat-icon">🎣</div>
+                        <span class="cat-badge">WEB3 EXPLOIT</span>
+                    </div>
+                    <h3>Phishing & Malicious DApps</h3>
+                    <p>Wallet drainer scripts disguised as token airdrops, rogue smart contract approvals (Permit/ERC-20 unlimited allowances), and cloned decentralized exchange (DEX) interfaces.</p>
+                    <a href="report.html" class="category-link" title="Report Phishing / Drainer">Report Phishing / Drainer →</a>
+                </div>
+                <!-- Card 3 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report Fake Investment Schemes">
+                    <div class="category-header">
+                        <div class="cat-icon">📈</div>
+                        <span class="cat-badge">HIGH VOLUME</span>
+                    </div>
+                    <h3>Fake Investment & Staking Schemes</h3>
+                    <p>Fraudulent investment advisory groups promising unrealistic guaranteed daily APY yields, fake VIP trading interfaces, and liquidity pool rug pulls.</p>
+                    <a href="report.html" class="category-link" title="Report Investment Scheme">Report Investment Scheme →</a>
+                </div>
+                <!-- Card 4 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report P2P Escrow & Exchange Disputes">
+                    <div class="category-header">
+                        <div class="cat-icon">🔄</div>
+                        <span class="cat-badge">BANKING DISPUTE</span>
+                    </div>
+                    <h3>P2P Escrow & Exchange Disputes</h3>
+                    <p>Bank accounts frozen due to receipt of tainted money in peer-to-peer USDT/BTC trades, fraudulent UPI chargebacks, and forged payment receipts on registered crypto exchanges.</p>
+                    <a href="report.html" class="category-link" title="Report P2P Trade Dispute">Report P2P Trade Dispute →</a>
+                </div>
+                <!-- Card 5 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report Ransomware & Digital Extortion">
+                    <div class="category-header">
+                        <div class="cat-icon">🔒</div>
+                        <span class="cat-badge">EXTORTION</span>
+                    </div>
+                    <h3>Ransomware & Digital Extortion</h3>
+                    <p>Malicious file encryptions demanding Bitcoin or Monero ransoms, blackmail threats involving deepfake media, and fraudulent impersonations.</p>
+                    <a href="report.html" class="category-link" title="Report Extortion / Ransomware">Report Extortion / Ransomware →</a>
+                </div>
+                <!-- Card 6 -->
+                <div class="category-card" onclick="window.location.href='report.html'" title="Report Cloud Mining & Arbitrage Schemes">
+                    <div class="category-header">
+                        <div class="cat-icon">⛏️</div>
+                        <span class="cat-badge">MULTILEVEL SCHEME</span>
+                    </div>
+                    <h3>Cloud Mining & Arbitrage Schemes</h3>
+                    <p>Multi-level pyramid referral schemes centered around fictitious cloud mining contracts, rigged algorithmic arbitrage bots, and unlisted token pre-sales.</p>
+                    <a href="report.html" class="category-link" title="Report Ponzi / Cloud Mining">Report Ponzi / Cloud Mining →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Compliance Resources -->
+        <section class="resources-section">
+            <div class="section-header">
+                <h2 style="font-size:1.1rem; color:var(--secondary-color); text-transform:uppercase; letter-spacing:1px; margin-bottom:0.25rem;">OFFICIAL COMPLIANCE & GUIDELINES</h2>
+                <h2 style="font-size:2rem; color:var(--primary-color);">Citizen Resources & Directives</h2>
+            </div>
+
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="res-icon">📄</div>
+                    <div class="resource-content">
+                        <h4>SOP for Crypto Incident Victims</h4>
+                        <p>Comprehensive guide to preserving on-chain digital evidence, TxID receipts, and FIR filing procedures.</p>
+                        <a href="#" title="Download Standard Operating Procedure Document">Download SOP (PDF, 2.4 MB) ↓</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <div class="res-icon">📜</div>
+                    <div class="resource-content">
+                        <h4>Notice to Registered VASPs</h4>
+                        <p>Mandatory compliance standards for virtual digital asset service providers regarding KYC and 24-hour freeze compliance.</p>
+                        <a href="#" title="Read the official VASP compliance circular">Read Official Circular →</a>
+                    </div>
+                </div>
+                <div class="resource-card">
+                    <div class="res-icon">🏛️</div>
+                    <div class="resource-content">
+                        <h4>Registered Exchange Directory</h4>
+                        <p>Verified catalog of cryptocurrency reporting entities compliant with Anti-Money Laundering provisions.</p>
+                        <a href="#" title="Check the official exchange registry directory">Check Registry Directory →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Urgent Banner -->
+    <div class="urgent-banner">
+        <div>
+            <h3><span style="color:#facc15;">⚠️</span> Need Urgent Forensic Intervention?</h3>
+            <p>Citizens who lost funds within the past 120 minutes can dial the emergency desk directly to trigger rapid bank and exchange freeze protocols.</p>
+        </div>
+        <button class="btn-urgent-call" title="Trigger rapid freeze protocol by calling support">📞 Call Emergency Desk</button>
+    </div>
+
+    <!-- 4-Column Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+                    <div style="background:#3b82f6; width:32px; height:32px; border-radius:4px;"></div>
+                    <div style="font-weight:bold; color:white; font-size:1.1rem;">VDA Audit Portal</div>
+                </div>
+                <p style="font-size:0.85rem; line-height:1.6; margin-bottom:1.5rem;">Dedicated to combating cryptocurrency fraud, digital transaction manipulation, and cross-border cyber threats.</p>
+                <div style="background:rgba(255,255,255,0.05); padding:1rem; border-radius:4px;">
+                    <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px;">National Helpline</div>
+                    <div style="font-size:1.2rem; font-weight:bold; color:white; margin-top:0.2rem;">XXX-XXXX-XXXX</div>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Platform Advisories & Safety</h4>
+                <ul>
+                    <li><a href="#" title="View Cyber Safety Tips for Citizens">Cyber Safety Tips for Citizens</a></li>
+                    <li><a href="#" title="View Cryptocurrency Precautions">Cryptocurrency Precautions</a></li>
+                    <li><a href="#" title="View Reporting Mandates">Reporting Mandates</a></li>
+                    <li><a href="#" title="View Suspect Wallet Alerts">Suspect Wallet Alerts</a></li>
+                    <li><a href="#" title="View Golden Hour Asset Freeze Standard Operating Procedure">Golden Hour Asset Freeze SOP</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Governance & Portal Policies</h4>
+                <ul>
+                    <li><a href="#" title="View Web 3.0 Compliance Statement">Web 3.0 Compliance Statement</a></li>
+                    <li><a href="#" title="View Terms of Service & Legal Notices">Terms of Service & Legal Notices</a></li>
+                    <li><a href="#" title="Access Citizen Grievance Redressal Portal">Citizen Grievance Redressal</a></li>
+                    <li><a href="#" title="View Website Data Retention Policies">Website Data Retention Policies</a></li>
+                    <li><a href="#" title="View Nodal Officers Directory">Nodal Officers Directory</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>System Certifications</h4>
+                <p style="font-size:0.85rem; margin-bottom:1rem;">Designed, developed, and hosted by National Tech Centres. Content managed and updated by System Administrators.</p>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.25rem 0.5rem; font-size:0.7rem; border-radius:3px;" title="Government Guidelines Certified">GIGW 2.0 VERIFIED</span>
+                    <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.25rem 0.5rem; font-size:0.7rem; border-radius:3px;" title="Quality Certification">STQC CERTIFIED</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div>© 2026 Audit System Administration. All Rights Reserved.</div>
+            <div>Last Reviewed & Updated: 24 May 2026 | Portal Version 4.2</div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

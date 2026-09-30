@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National VDA Audit System - File Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- Utility Bar -->
+    <div class="utility-bar">
+        <div class="utility-left">
+            <span>System Status: 🟢 ACTIVE</span>
+            <span>Digital Assurance Initiative</span>
+        </div>
+        <div class="utility-right">
+            <span><span id="sys-time"></span> (UTC+05:30)</span>
+            <select title="Select Language"><option>English</option></select>
+            <button title="Decrease Font Size">A-</button><button title="Normal Font Size">A</button><button title="Increase Font Size">A+</button>
+            <button class="btn-emergency" title="Contact Emergency Support Desk">🚨 Emergency Desk</button>
+        </div>
+    </div>
+
+    <!-- Main Branding Header -->
+    <header class="main-header">
+        <div class="branding-container" style="cursor: pointer;" onclick="window.location.href='index.html'" title="Return to Home Page">
+            <div class="branding-logo"></div>
+            <div>
+                <div class="branding-title">VDA Audit & Asset Tracing Portal</div>
+                <div class="branding-subtitle">Neutral Web3 Security, Asset Recovery, and Transaction Tracing Platform</div>
+            </div>
+        </div>
+        <div class="user-login" title="User Login Portal">👤 User Login</div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="main-nav">
+        <a href="index.html" title="Home Page">Home</a>
+        <a href="report.html" class="active" title="File a new dispute entry">File Dispute Entry</a>
+        <a href="#" title="Track existing report status">Track Status</a>
+        <a href="#" title="Verification and Audit Node Registry">Verification & Audit</a>
+    </nav>
+
+    <!-- Progress Tracker (7 Steps) -->
+    <div class="progress-tracker">
+        <div class="step completed"><span class="step-number">✓</span> Category</div>
+        <div class="step completed"><span class="step-number">✓</span> Incident Details</div>
+        <div class="step active"><span class="step-number">3</span> VDA Transactions</div>
+        <div class="step"><span class="step-number">4</span> Suspect Profile</div>
+        <div class="step"><span class="step-number">5</span> Upload Evidence</div>
+        <div class="step"><span class="step-number">6</span> Citizen Info</div>
+        <div class="step"><span class="step-number">7</span> Review & Submit</div>
+    </div>
+
+    <div class="container report-container">
+        <!-- Main Form Column -->
+        <main class="left-column">
+            <form id="vda-form">
+                
+                <!-- Section 1: Details -->
+                <section>
+                    <span class="stage-pill">⚙️ FORM STAGE 3 OF 7</span>
+                    <h2>Virtual Digital Asset (VDA) & Transaction Details</h2>
+                    <p class="text-muted">Provide accurate on-chain identifiers to initiate emergency blockchain tracing and node alerts.</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>DISPUTE SUB-CATEGORY</label>
+                            <select id="dispute_category" required title="Select the category of the dispute">
+                                <option value="P2P Transfer Freeze">P2P Transfer Freeze / Impersonation</option>
+                                <option value="Exchange Hack">Exchange Hack</option>
+                                <option value="Phishing">Phishing / Malicious Contract</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>INCIDENT TIME / TIMESTAMP</label>
+                            <input type="datetime-local" id="incident-time" required title="Select the date and time of the incident">
+                        </div>
+                        <div class="form-group">
+                            <label>JURISDICTION / REGION ZONE</label>
+                            <select id="jurisdiction_zone" required title="Select the jurisdiction zone">
+                                <option value="Zone 1 - Core Response">Zone 1 - Core Response Unit</option>
+                                <option value="Zone 2 - Global Network">Zone 2 - Global Network</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Blockchain Logs -->
+                <section>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <h2>Disputed Transfers & Blockchain Logs</h2>
+                        <span style="background:#f1f5f9; padding:0.25rem 0.75rem; border-radius:4px; font-size:0.85rem; font-weight:600;">Count: 2 Documented</span>
+                    </div>
+
+                    <!-- Primary Tx Card -->
+                    <div class="tx-card">
+                        <div class="tx-header">
+                            <h3 style="display:flex; align-items:center; gap:0.5rem;">
+                                <span style="background:#2d3748; color:white; width:24px; height:24px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">#1</span>
+                                Primary Disputed Transaction
+                            </h3>
+                            <span class="badge-success">✓ Validated TxID</span>
+                        </div>
+
+                        <!-- Network Tabs -->
+                        <div class="tabs network-tabs">
+                            <button type="button" class="tab-btn" title="Select Bitcoin Network">Bitcoin</button>
+                            <button type="button" class="tab-btn" title="Select Ethereum Network">Ethereum</button>
+                            <button type="button" class="tab-btn active" data-target="TRC20" title="Select TRON Network">TRON (TRC20)</button>
+                            <button type="button" class="tab-btn" title="Select BNB Chain Network">BNB Chain</button>
+                            <button type="button" class="tab-btn" title="Select Solana Network">Solana</button>
+                            <button type="button" class="tab-btn" title="Select Polygon or Other Network">Polygon / Other</button>
+                        </div>
+                        <input type="hidden" id="network" value="TRC20">
+
+                        <div class="form-group" style="margin-bottom: 1.5rem;">
+                            <label style="display:flex; justify-content:space-between;">
+                                <span>TRANSACTION HASH / TxID</span>
+                                <a href="#" style="color:var(--secondary-color); text-decoration:none; font-weight:normal;" title="Verify transaction hash on a public blockchain explorer">Verify on Explorer ↗</a>
+                            </label>
+                            <div class="input-group">
+                                <input type="text" id="tx-hash" required placeholder="Enter Hex Hash" value="a4f89d1203e7c8194483db238128919db49a184148ff295a6afda09347e3ce1b" title="Transaction Hash Input">
+                                <button type="button" style="color:#38a169; font-weight:bold; background:#f0fff4;" title="Network Type">TRC-20</button>
+                                <button type="button" onclick="copyToClipboard('tx-hash')" title="Copy TxID to clipboard">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="wallet-grid">
+                            <div class="form-group">
+                                <label style="display:flex; justify-content:space-between;">
+                                    <span>SENDER (VICTIM) WALLET ADDRESS</span>
+                                    <span style="color:var(--secondary-color); cursor:pointer;" title="Source Account Indicator">Source Account</span>
+                                </label>
+                                <input type="text" id="sender-wallet" value="TYd1j9mK6Lq19M0yWk76SqB32191KtnQ" required title="Sender Wallet Address">
+                                <div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px;">🏷️ Tags: Trust Wallet / Self-Custody</div>
+                            </div>
+                            <div class="form-group">
+                                <label>DESTINATION WALLET ADDRESS</label>
+                                <input type="text" id="destination-wallet" value="TVeKJpRU5vTaM4eW8yN112gZ88LmaXYZ" required title="Destination Wallet Address">
+                                <div><span class="alert-tag" title="This address has been flagged for high risk activity">⚠️ HIGH RISK FLAG: Flagged as suspect node</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Metrics Grid -->
+                        <div class="metrics-grid">
+                            <div>
+                                <div class="metric-label">DISPUTED CRYPTO VOLUME</div>
+                                <div class="metric-val">15,450.00 USDT</div>
+                                <div class="metric-sub">Tether USD (TRC-20)</div>
+                                <input type="hidden" id="crypto-volume" value="15450">
+                            </div>
+                            <div>
+                                <div class="metric-label">ESTIMATED FIAT EQUIVALENT</div>
+                                <div class="metric-val highlight-text">₹13,28,700</div>
+                                <div class="metric-sub">Auto-calculated (₹86.00 / USDT)</div>
+                                <input type="hidden" id="fiat-value" value="1328700">
+                            </div>
+                            <div>
+                                <div class="metric-label">BLOCKCHAIN TIMESTAMP</div>
+                                <div class="metric-val" style="font-size:1.1rem; color:#4a5568;">14-Oct-2026 14:35:12</div>
+                                <div class="metric-sub">Block #62,912,410</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Secondary Collapsible Card -->
+                    <div class="collapsible-card" title="Expand to view details for Transaction #2">
+                        <div style="display:flex; align-items:center; gap:1rem;">
+                            <span style="background:#e2e8f0; padding:0.25rem 0.5rem; border-radius:4px; font-weight:bold; font-size:0.8rem;">#2</span>
+                            <div>
+                                <div style="font-weight:bold;">Transaction #2 - BNB Chain (BEP-20) <span style="background:#edf2f7; padding:0.1rem 0.4rem; border-radius:4px; font-size:0.8rem; font-weight:normal; margin-left:0.5rem;">0x7e9b...41e8</span></div>
+                                <div style="font-size:0.85rem; color:var(--text-muted);">Loss: 2.50 BNB (~₹1,27,500 INR) • Added 14-Oct-2026 15:10</div>
+                            </div>
+                        </div>
+                        <div style="color:var(--secondary-color); font-weight:600; font-size:0.9rem;">Edit Entry ⌄</div>
+                    </div>
+                    
+                    <button type="button" class="btn-outline" style="width: 100%; margin-top: 1rem;" title="Add an additional disputed transaction form field">+ Add Another Disputed Blockchain Transaction</button>
+                </section>
+
+                <!-- Section 3: Evidence -->
+                <section>
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h2>Initial Evidence & Supporting Logs</h2>
+                        <span style="font-size:0.85rem; color:var(--text-muted);">Optional at this step • Step 5 for full bundle</span>
+                    </div>
+                    <p class="text-muted">Upload export receipts from exchanges or screenshots demonstrating transfer instructions.</p>
+
+                    <div class="upload-zone" id="drop-zone" title="Click to browse or drag and drop files here">
+                        <div style="font-size:2rem; color:var(--secondary-color); margin-bottom:1rem;">☁️</div>
+                        <h4 style="margin-bottom:0.5rem;">Drop wallet transaction screenshots or exchange withdrawal logs here</h4>
+                        <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Supports PDF, PNG, JPG, CSV up to 10 MB per document</p>
+                        
+                        <input type="file" id="file-upload" multiple style="display:none" title="Upload files">
+                        <button type="button" class="btn-draft" onclick="document.getElementById('file-upload').click()" title="Browse local file system for evidence">Browse Local Files</button>
+                    </div>
+
+                    <div style="margin-top:1.5rem;">
+                        <div style="font-size:0.8rem; font-weight:600; color:var(--text-muted); margin-bottom:0.5rem;">ATTACHED FOR THIS TRANSACTION:</div>
+                        <div class="file-list" id="file-list">
+                            <!-- Dummy Pre-attached files -->
+                            <div class="file-item">
+                                <span style="display:flex; align-items:center;"><span style="color:#e53e3e; margin-right:8px;">📄</span> withdrawal_receipt_binance.pdf <span style="color:var(--text-muted); margin-left:8px; font-size:0.85rem;">1.4 MB</span></span>
+                                <div>
+                                    <span class="badge-scanned" title="File has been scanned for malware">Scanned</span>
+                                    <span style="cursor:pointer; color:var(--text-muted);" title="Remove this file">✕</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Declaration -->
+                <section style="background:#f8fafc; border:1px solid var(--border-color);">
+                    <label style="display:flex; gap:12px; align-items:start;" title="Check to accept the statutory affirmation">
+                        <input type="checkbox" id="declaration" required style="margin-top:4px; width:18px; height:18px;">
+                        <span style="font-size:0.9rem; color:var(--text-main);">
+                            <strong>Statutory Affirmation:</strong> I solemnly affirm that the crypto transactions, hashes, and wallet addresses provided above are genuine and relate to an unauthorized or fraudulent deprivation of my assets. I understand that submitting fabricated transaction logs constitutes a legal offense.
+                        </span>
+                    </label>
+                </section>
+
+                <div class="form-actions" style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+                    <button type="button" class="btn-text" onclick="window.location.href='index.html'" title="Go back to the Incident Details page">← Back to Home / Incident Details</button>
+                    <div>
+                        <button type="button" class="btn-draft" style="background: white; border: 1px solid var(--border-color); padding: 0.8rem 1.5rem; border-radius: 4px; cursor: pointer; margin-right: 1rem;" title="Save current progress as a draft (Local Storage)">💾 Save Progress</button>
+                        
+                        <!-- Updated Submit Button -->
+                        <button type="submit" class="btn-primary" title="Submit this report and finalize the form entry">Submit Report</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="right-column">
+            <!-- Golden Hour Card -->
+            <div class="card dark" style="background: #1a202c; color: white; padding: 1.5rem; border-radius: 8px;">
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+                    <span style="font-size:1.2rem;">⏱️</span>
+                    <h3 style="margin:0; color: #fbd38d;">The Golden Hour Advantage</h3>
+                </div>
+                <p style="font-size:0.9rem; color:#e2e8f0;">Reporting within <strong>2 to 4 hours</strong> of fraudulent crypto transfer enables the Rapid Response Unit to issue urgent freeze notices to registered VDA Service Providers before assets move to privacy mixers.</p>
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: 4px; margin-top: 1rem; font-size: 0.85rem; border-left: 4px solid #fbd38d;">
+                    🔒 AVERAGE EXCHANGE FREEZE WINDOW: < 45 MINS
+                </div>
+            </div>
+
+            <!-- Hash Guide Card -->
+            <div class="card" style="background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
+                    <span style="color:var(--secondary-color); font-size:1.2rem;">ℹ️</span>
+                    <h3 style="margin:0; color: var(--primary-color);">Locating Your Transaction Hash</h3>
+                </div>
+                <p style="font-size:0.85rem; color:var(--text-muted);">A TxID is a distinct alphanumeric proof of payment recorded on public distributed ledgers.</p>
+                
+                <div class="tabs" style="margin-top:1rem; margin-bottom:0; gap:0.5rem; display: flex; border-bottom: 1px solid var(--border-color);">
+                    <button class="tab-btn active" style="padding:0.5rem; font-size:0.85rem;" title="Show Binance guide">Binance</button>
+                    <button class="tab-btn" style="padding:0.5rem; font-size:0.85rem;" title="Show MetaMask guide">MetaMask</button>
+                    <button class="tab-btn" style="padding:0.5rem; font-size:0.85rem;" title="Show Trust Wallet guide">Trust</button>
+                </div>
+                
+                <ol style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); margin-top: 1rem;">
+                    <li style="margin-bottom: 0.5rem;">Open your <strong>Exchange App</strong> and navigate to <em>Wallets → History</em>.</li>
+                    <li style="margin-bottom: 0.5rem;">Tap the specific <strong>Withdrawal</strong> record.</li>
+                    <li style="margin-bottom: 0.5rem;">Locate <strong>TxID</strong> and click copy.</li>
+                </ol>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 4-Column Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+                    <div style="background:#3b82f6; width:32px; height:32px; border-radius:4px;"></div>
+                    <div style="font-weight:bold; color:white; font-size:1.1rem;">VDA Audit Portal</div>
+                </div>
+                <p style="font-size:0.85rem; line-height:1.6; margin-bottom:1.5rem;">Dedicated to combating cryptocurrency fraud, digital transaction manipulation, and cross-border cyber threats.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Platform Advisories & Safety</h4>
+                <ul>
+                    <li><a href="#" title="View Cyber Safety Tips for Citizens">Cyber Safety Tips for Citizens</a></li>
+                    <li><a href="#" title="View Cryptocurrency Precautions">Cryptocurrency Precautions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>Governance & Portal Policies</h4>
+                <ul>
+                    <li><a href="#" title="View Web 3.0 Compliance Statement">Web 3.0 Compliance Statement</a></li>
+                    <li><a href="#" title="View Terms of Service & Legal Notices">Terms of Service & Legal Notices</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4>System Certifications</h4>
+                <p style="font-size:0.85rem; margin-bottom:1rem;">Designed, developed, and hosted by National Tech Centres.</p>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <span style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.25rem 0.5rem; font-size:0.7rem; border-radius:3px;" title="Government Guidelines Certified">GIGW 2.0 VERIFIED</span>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2026 Audit System Administration. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="supabaseClient.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
